@@ -49,7 +49,9 @@ external_network_name: ''
 #use_existing_management_network: false
 #management_subnet_name: cloudify-management-network-subnet
 #use_existing_management_subnet: false
-#subnet_cidr: 172.16.0.0/16
+#management_subnet_gateway_ip: auto
+#management_subnet_cidr: 172.16.0.0/16
+#management_subnet_host_routes: []
 #management_router: cloudify-management-router
 #use_existing_router: false
 #manager_security_group_name: cloudify-sg-manager
