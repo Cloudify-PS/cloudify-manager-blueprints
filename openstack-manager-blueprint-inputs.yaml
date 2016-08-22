@@ -15,6 +15,9 @@ region: ''
 #nova_url: ''
 #neutron_url: ''
 
+# Availability zone to use.
+#availability_zone: ''
+
 # The bootstrap process creates 2 key pairs in order to connect to the management machine and application hosts.
 # Set these properties to true (one or both) if you want to use existing key pairs, and not create new ones.
 #use_existing_manager_keypair: false
@@ -43,10 +46,18 @@ external_network_name: ''
 # Names of the openstack components
 #manager_server_name: cloudify-manager-server
 #management_network_name: cloudify-management-network
+#use_existing_management_network: false
 #management_subnet_name: cloudify-management-network-subnet
+#use_existing_management_subnet: false
+#management_subnet_gateway_ip: auto
+#management_subnet_cidr: 172.16.0.0/16
+#management_subnet_host_routes: []
 #management_router: cloudify-management-router
+#use_existing_router: false
 #manager_security_group_name: cloudify-sg-manager
+#use_existing_manager_security_group: false
 #agents_security_group_name: cloudify-sg-agents
+#use_existing_agents_security_group: false
 #manager_port_name: cloudify-manager-port
 
 # DNS entries to add to subnet. Defaults to none.
