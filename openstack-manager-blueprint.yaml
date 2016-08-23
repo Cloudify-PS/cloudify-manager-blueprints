@@ -114,13 +114,6 @@ inputs:
     default: 172.16.0.0/16
     type: string
 
-  management_subnet_gateway_ip:
-    default: 172.16.0.1
-    type: string
-
-  management_subnet_host_routes:
-    default: []
-
   management_subnet_dns_nameservers:
     default: []
 
@@ -752,8 +745,6 @@ node_templates:
         ip_version: 4
         cidr: { get_input: management_subnet_cidr }
         dns_nameservers: { get_input: management_subnet_dns_nameservers }
-        gateway_ip: { get_input: management_subnet_gateway_ip }
-        host_routes: { get_input: management_subnet_host_routes }
       openstack_config: *openstack_configuration
     relationships:
       - target: management_network
