@@ -497,6 +497,14 @@ inputs:
     default: 2
 
   #############################
+  # REST Service Inputs
+  #############################
+  rest_service_plugins:
+    description: >
+      Plugins for the REST service (such as authentication and authorization).
+    default: {}
+
+  #############################
   # Upload Resources Inputs
   #############################
   dsl_resources:
