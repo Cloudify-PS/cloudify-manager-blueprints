@@ -206,6 +206,11 @@ user_public_key: ssh-rsa...
 #management_worker_log_level: debug
 
 #############################
+# REST Service configuration
+#############################
+#rest_service_plugins: {}
+
+#############################
 # RabbitMQ Configuration
 #############################
 # Sets the username/password to use for clients such as celery
