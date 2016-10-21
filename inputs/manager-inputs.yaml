@@ -398,7 +398,7 @@ inputs:
 
   cli_source_url:
     type: string
-    default: ''
+    default: https://github.com/Cloudify-PS/cloudify-cli/archive/3.4.0.2-maint.zip
 
   rest_service_source_url:
     type: string
@@ -430,7 +430,7 @@ inputs:
 
   agent_source_url:
     type: string
-    default: ''
+    default: https://github.com/Cloudify-PS/cloudify-agent/archive/3.4.0.2-maint.zip
 
   #############################
   # Telecom Edition
