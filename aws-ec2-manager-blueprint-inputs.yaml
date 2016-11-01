@@ -176,6 +176,7 @@ aws_secret_access_key: ''
 #############################
 # REST Service configuration
 #############################
+#gunicorn_workers_count: 0
 #rest_service_plugins: {}
 
 #############################

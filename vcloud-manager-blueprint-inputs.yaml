@@ -208,6 +208,7 @@ user_public_key: ssh-rsa...
 #############################
 # REST Service configuration
 #############################
+#gunicorn_workers_count: 0
 #rest_service_plugins: {}
 
 #############################

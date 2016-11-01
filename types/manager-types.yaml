@@ -663,6 +663,10 @@ node_types:
         description: Use existing elasticsearch configuration
         type: string
         default: true
+      gunicorn_workers_count:
+        description: Number of gunicorn workers to start
+        type: integer
+        default: { get_input: gunicorn_workers_count }
     interfaces:
       cloudify.interfaces.lifecycle:
         create:

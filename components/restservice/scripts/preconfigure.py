@@ -26,7 +26,12 @@ def preconfigure_restservice():
         f.write(sec_config)
     utils.move(path, os.path.join(rest_service_home, 'rest-security.conf'))
 
-    utils.systemd.configure(REST_SERVICE_NAME, render=False)
+    gunicorn_workers_count = ctx.source.node.properties['gunicorn_workers_count']
+    if gunicorn_workers_count < 1:
+        gunicorn_workers_count = '$(($(nproc)*2+1))'
+    ctx.source.instance.runtime_properties['gunicorn_workers_count'] = gunicorn_workers_count
+
+    utils.systemd.configure(REST_SERVICE_NAME, render=True)
 
 
 preconfigure_restservice()
