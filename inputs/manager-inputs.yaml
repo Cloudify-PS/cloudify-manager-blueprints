@@ -380,10 +380,10 @@ inputs:
 
   gunicorn_workers_count:
     description: >
-      Number of gunicorn worker processes to start. The default is 0, which will result in
+      Number of gunicorn worker processes to start. The default is "$(($(nproc)*2+1))", which will result in
       n*2+1 processes, when 'n' is the number of cores on the machine.
-    type: integer
-    default: 0
+    type: string
+    default: '$(($(nproc)*2+1))'
 
   rest_service_plugins:
     description: >

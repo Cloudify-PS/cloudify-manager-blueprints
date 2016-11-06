@@ -665,7 +665,7 @@ node_types:
         default: true
       gunicorn_workers_count:
         description: Number of gunicorn workers to start
-        type: integer
+        type: string
         default: { get_input: gunicorn_workers_count }
     interfaces:
       cloudify.interfaces.lifecycle:
