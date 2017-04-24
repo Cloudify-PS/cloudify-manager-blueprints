@@ -42,7 +42,8 @@ def _configure_influxdb(host, port):
         ctx.logger.info('Database {0} already exists!'.format(db_name))
         return
 
-    ctx.logger.info('Request is: {0} \'{1}\''.format(url, data))
+    ctx.logger.info('Request is: {0} \'{1}\''.format(endpoint, data))
+    ctx.logger.debug('Credentials is: {0}'.format(params))
 
     try:
         urllib2.urlopen(urllib2.Request(url, json.dumps(data)))
