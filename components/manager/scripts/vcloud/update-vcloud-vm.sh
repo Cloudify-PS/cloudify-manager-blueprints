@@ -29,3 +29,7 @@ if [ "z$status" == 'zactive' ]; then
 else
     echo "Skipping update firewall, please update rules manually"
 fi
+
+# set public ip to loopback for sanity checks
+echo "Set public $PUBLIC_IP ip to loopback interface"
+sudo ip address add $PUBLIC_IP/32 dev lo
