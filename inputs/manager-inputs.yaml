@@ -446,6 +446,10 @@ inputs:
   # supplied within the rpm.
   # These should be pip installable tar.gz files.
 
+  pip_constraints:
+    type: string
+    default: Null
+
   cli_source_url:
     type: string
     default: ''

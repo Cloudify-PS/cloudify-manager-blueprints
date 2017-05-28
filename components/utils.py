@@ -397,15 +397,31 @@ def deploy_or_generate_external_ssl_cert(ips, cn):
     return cert_target_path, key_target_path
 
 
-def install_python_package(source, venv=''):
+def install_python_package(source, venv='', constraints=None):
+    cmdline = []
+    if venv:
+        cmdline.append('{0}/bin/pip'.format(venv))
+    else:
+        cmdline.append('pip')
+
+    cmdline.extend(['install', source, '--upgrade'])
+
+    if constraints:
+        constraints_fd, constraints_file = tempfile.mkstemp(".txt", "constraints")
+        os.write(constraints_fd, constraints)
+        os.close(constraints_fd)
+        cmdline.extend(['-c', constraints_file])
+
     if venv:
         ctx.logger.info('Installing {0} in virtualenv {1}...'.format(
             source, venv))
-        sudo(['{0}/bin/pip'.format(
-            venv), 'install', source, '--upgrade'])
     else:
         ctx.logger.info('Installing {0}'.format(source))
-        sudo(['pip', 'install', source, '--upgrade'])
+
+    sudo(cmdline)
+
+    if constraints_file:
+        os.remove(constraints_file)
 
 
 def get_file_content(file_path):

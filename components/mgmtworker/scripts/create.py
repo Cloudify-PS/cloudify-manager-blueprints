@@ -36,18 +36,19 @@ def _install_optional(mgmtworker_venv):
     script_plugin_source_url = rest_props['script_plugin_module_source_url']
     rest_service_source_url = rest_props['rest_service_module_source_url']
     agent_source_url = rest_props['agent_module_source_url']
+    pip_constraints = rest_props['pip_constraints']
 
     # this allows to upgrade modules if necessary.
     ctx.logger.info('Installing Optional Packages if supplied...')
     if rest_client_source_url:
-        utils.install_python_package(rest_client_source_url, mgmtworker_venv)
+        utils.install_python_package(rest_client_source_url, mgmtworker_venv, pip_constraints)
     if plugins_common_source_url:
         utils.install_python_package(
-            plugins_common_source_url, mgmtworker_venv)
+            plugins_common_source_url, mgmtworker_venv, pip_constraints)
     if script_plugin_source_url:
-        utils.install_python_package(script_plugin_source_url, mgmtworker_venv)
+        utils.install_python_package(script_plugin_source_url, mgmtworker_venv, pip_constraints)
     if agent_source_url:
-        utils.install_python_package(agent_source_url, mgmtworker_venv)
+        utils.install_python_package(agent_source_url, mgmtworker_venv, pip_constraints)
 
     if rest_service_source_url:
         ctx.logger.info('Downloading cloudify-manager Repository...')

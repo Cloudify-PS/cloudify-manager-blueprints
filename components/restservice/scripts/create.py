@@ -34,21 +34,22 @@ def install_optional(rest_venv):
     plugins_common_source_url = props['plugins_common_module_source_url']
     script_plugin_source_url = props['script_plugin_module_source_url']
     agent_source_url = props['agent_module_source_url']
+    pip_constraints = props['pip_constraints']
 
     rest_service_source_url = props['rest_service_module_source_url']
 
     # this allows to upgrade modules if necessary.
     ctx.logger.info('Installing Optional Packages if supplied...')
     if dsl_parser_source_url:
-        utils.install_python_package(dsl_parser_source_url, rest_venv)
+        utils.install_python_package(dsl_parser_source_url, rest_venv, pip_constraints)
     if rest_client_source_url:
-        utils.install_python_package(rest_client_source_url, rest_venv)
+        utils.install_python_package(rest_client_source_url, rest_venv, pip_constraints)
     if plugins_common_source_url:
-        utils.install_python_package(plugins_common_source_url, rest_venv)
+        utils.install_python_package(plugins_common_source_url, rest_venv, pip_constraints)
     if script_plugin_source_url:
-        utils.install_python_package(script_plugin_source_url, rest_venv)
+        utils.install_python_package(script_plugin_source_url, rest_venv, pip_constraints)
     if agent_source_url:
-        utils.install_python_package(agent_source_url, rest_venv)
+        utils.install_python_package(agent_source_url, rest_venv, pip_constraints)
 
     if rest_service_source_url:
         ctx.logger.info('Downloading cloudify-manager Repository...')
