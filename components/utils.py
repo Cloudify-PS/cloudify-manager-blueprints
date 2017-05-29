@@ -397,6 +397,13 @@ def deploy_or_generate_external_ssl_cert(ips, cn):
     return cert_target_path, key_target_path
 
 
+def write_to_tempfile(contents):
+    fd, path = tempfile.mkstemp()
+    os.write(fd, contents)
+    os.close(fd)
+    return path
+
+
 def install_python_package(source, venv='', constraints=None):
     cmdline = []
     if venv:
