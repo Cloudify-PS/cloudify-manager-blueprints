@@ -278,9 +278,9 @@ def _generate_ssl_certificate(ips,
     """
     mkdir(SSL_CERTS_TARGET_DIR)
 
-    ips.append('127.0.0.1')
     # Remove duplicates from ips
-    ips = list(set(ips))
+    ips.append('127.0.0.1')
+    ips = set(ips)
     metadata_items = ['IP:{0},DNS:{0}'.format(x) for x in ips]
     cert_metadata = '{0},DNS:localhost'.format(
         ','.join(metadata_items))
@@ -360,8 +360,28 @@ def deploy_or_generate_external_ssl_cert(ips, cn):
         EXTERNAL_SSL_KEY_FILENAME
     )
 
-    if not (os.path.isfile(user_provided_cert_path) and
-                os.path.isfile(user_provided_key_path)):
+    if os.path.isfile(user_provided_cert_path) and \
+            os.path.isfile(user_provided_key_path):
+        # Try to deploy user provided certificates
+        deploy_blueprint_resource(user_provided_cert_path,
+                                  cert_target_path,
+                                  NGINX_SERVICE_NAME,
+                                  user_resource=True,
+                                  load_ctx=False)
+        deploy_blueprint_resource(user_provided_key_path,
+                                  key_target_path,
+                                  NGINX_SERVICE_NAME,
+                                  user_resource=True,
+                                  load_ctx=False)
+        ctx.logger.info(
+            'Deployed user-provided SSL certificate `{0}` and SSL private '
+            'key `{1}`'.format(
+                EXTERNAL_SSL_CERT_FILENAME,
+                EXTERNAL_SSL_KEY_FILENAME
+            )
+        )
+        return cert_target_path, key_target_path
+    else:
         ctx.logger.info(
             'Generating SSL certificate `{0}` and SSL private '
             'key `{1}`'.format(
@@ -369,6 +389,7 @@ def deploy_or_generate_external_ssl_cert(ips, cn):
                 EXTERNAL_SSL_KEY_FILENAME
             )
         )
+
         return _generate_ssl_certificate(
             ips,
             cn,
@@ -376,35 +397,15 @@ def deploy_or_generate_external_ssl_cert(ips, cn):
             EXTERNAL_SSL_KEY_FILENAME,
         )
 
-    # Try to deploy user provided certificates
-    deploy_blueprint_resource(user_provided_cert_path,
-                              cert_target_path,
-                              NGINX_SERVICE_NAME,
-                              user_resource=True,
-                              load_ctx=False)
-    deploy_blueprint_resource(user_provided_key_path,
-                              key_target_path,
-                              NGINX_SERVICE_NAME,
-                              user_resource=True,
-                              load_ctx=False)
-    ctx.logger.info(
-        'Deployed user-provided SSL certificate `{0}` and SSL private '
-        'key `{1}`'.format(
-            EXTERNAL_SSL_CERT_FILENAME,
-            EXTERNAL_SSL_KEY_FILENAME
-        )
-    )
-    return cert_target_path, key_target_path
-
 
 def write_to_tempfile(contents):
-    fd, path = tempfile.mkstemp()
+    fd, file_path = tempfile.mkstemp()
     os.write(fd, contents)
     os.close(fd)
-    return path
+    return file_path
 
 
-def install_python_package(source, venv='', constraints=None):
+def install_python_package(source, venv='', constraints_file=None):
     cmdline = []
     if venv:
         cmdline.append('{0}/bin/pip'.format(venv))
@@ -413,22 +414,17 @@ def install_python_package(source, venv='', constraints=None):
 
     cmdline.extend(['install', source, '--upgrade'])
 
-    if constraints:
-        constraints_fd, constraints_file = tempfile.mkstemp(".txt", "constraints")
-        os.write(constraints_fd, constraints)
-        os.close(constraints_fd)
-        cmdline.extend(['-c', constraints_file])
+    log_message = 'Installing {0}'.format(source)
 
     if venv:
-        ctx.logger.info('Installing {0} in virtualenv {1}...'.format(
-            source, venv))
-    else:
-        ctx.logger.info('Installing {0}'.format(source))
+        log_message += ' in virtualenv {0}'.format(venv)
+    if constraints_file:
+        cmdline.extend(['-c', constraints_file])
+        log_message += ' using constraints file {0}'.format(constraints_file)
+
+    ctx.logger.info(log_message)
 
     sudo(cmdline)
-
-    if constraints_file:
-        os.remove(constraints_file)
 
 
 def get_file_content(file_path):

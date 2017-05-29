@@ -39,19 +39,24 @@ def _install_optional(mgmtworker_venv):
     agent_source_url = rest_props['agent_module_source_url']
     pip_constraints = rest_props['pip_constraints']
 
-    constraints_file = utils.write_to_tempfile(pip_constraints) if pip_constraints else None
+    constraints_file = utils.write_to_tempfile(pip_constraints) if \
+        pip_constraints else None
 
     # this allows to upgrade modules if necessary.
     ctx.logger.info('Installing Optional Packages if supplied...')
     if rest_client_source_url:
-        utils.install_python_package(rest_client_source_url, mgmtworker_venv, constraints_file)
+        utils.install_python_package(rest_client_source_url, mgmtworker_venv,
+                                     constraints_file)
     if plugins_common_source_url:
         utils.install_python_package(
-            plugins_common_source_url, mgmtworker_venv, constraints_file)
+            plugins_common_source_url, mgmtworker_venv,
+            constraints_file)
     if script_plugin_source_url:
-        utils.install_python_package(script_plugin_source_url, mgmtworker_venv, constraints_file)
+        utils.install_python_package(script_plugin_source_url, mgmtworker_venv,
+                                     constraints_file)
     if agent_source_url:
-        utils.install_python_package(agent_source_url, mgmtworker_venv, constraints_file)
+        utils.install_python_package(agent_source_url, mgmtworker_venv,
+                                     constraints_file)
 
     if rest_service_source_url:
         ctx.logger.info('Downloading cloudify-manager Repository...')
@@ -65,12 +70,15 @@ def _install_optional(mgmtworker_venv):
         riemann_dir = join(tmp_dir, 'plugins/riemann-controller')
 
         ctx.logger.info('Installing Management Worker Plugins...')
-        utils.install_python_package(riemann_dir, mgmtworker_venv, constraints_file)
-        utils.install_python_package(workflows_dir, mgmtworker_venv, constraints_file)
+        utils.install_python_package(riemann_dir, mgmtworker_venv,
+                                     constraints_file)
+        utils.install_python_package(workflows_dir, mgmtworker_venv,
+                                     constraints_file)
 
         utils.remove(tmp_dir)
 
-    os.remove(constraints_file)
+    if constraints_file:
+        os.remove(constraints_file)
 
 
 def install_mgmtworker():
