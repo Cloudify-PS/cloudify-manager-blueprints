@@ -71,6 +71,8 @@ INTERNAL_KEY_PATH = os.path.join(SSL_CERTS_TARGET_DIR,
 CERT_METADATA_FILE_PATH = os.path.join(SSL_CERTS_TARGET_DIR,
                                        'certificate_metadata')
 
+CFY_EXEC_TEMPDIR_ENVVAR = 'CFY_EXEC_TEMP'
+
 
 def retry(exception, tries=4, delay=3, backoff=2):
     """Retry calling the decorated function using an exponential backoff.
@@ -1886,3 +1888,7 @@ def set_service_as_cloudify_service(runtime_props):
 
     runtime_props['service_user'] = CLOUDIFY_USER
     runtime_props['service_group'] = CLOUDIFY_GROUP
+
+
+def get_exec_tempdir():
+    return os.environ.get(CFY_EXEC_TEMPDIR_ENVVAR) or tempfile.gettempdir()
