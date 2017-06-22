@@ -121,9 +121,9 @@ inputs:
     default:
       ubuntu_trusty_agent: Ubuntu-trusty-agent_*.tar.gz
       ubuntu_precise_agent: Ubuntu-precise-agent_*.tar.gz
-      centos_7x_agent: centos-Core-agent_*.tar.gz
+      centos_7x_agent: https://s3-eu-west-1.amazonaws.com/gigaspaces-delivery/p001/centos-Core-agent.tar.gz
       centos_6x_agent: centos-Final-agent_*.tar.gz
-      redhat_7x_agent: redhat-Maipo-agent_*.tar.gz
+      redhat_7x_agent: https://s3-eu-west-1.amazonaws.com/gigaspaces-delivery/p001/redhat-Maipo-agent.tar.gz
       redhat_6x_agent: redhat-Santiago-agent_*.tar.gz
       cloudify_windows_agent: cloudify-windows-agent_*.exe
 
@@ -455,11 +455,13 @@ inputs:
 
       requests==2.13.0
       requests-toolbelt==0.7.1
-    default: ''
+    default: |
+      requests==2.13.0
+      requests-toolbelt==0.7.1
 
   cli_source_url:
     type: string
-    default: ''
+    default: https://github.com/Cloudify-PS/cloudify-cli/archive/4.0.1-p001.tar.gz
 
   rest_service_source_url:
     type: string
@@ -471,15 +473,15 @@ inputs:
 
   rest_client_source_url:
     type: string
-    default: ''
+    default: https://github.com/Cloudify-PS/cloudify-rest-client/archive/4.0.1-p001.zip
 
   plugins_common_source_url:
     type: string
-    default: ''
+    default: https://github.com/Cloudify-PS/cloudify-plugins-common/archive/4.0.1-p001.zip
 
   script_plugin_source_url:
     type: string
-    default: ''
+    default: https://github.com/Cloudify-PS/cloudify-script-plugin/archive/1.4-p001.zip
 
   amqpinflux_source_url:
     type: string
@@ -487,7 +489,7 @@ inputs:
 
   agent_source_url:
     type: string
-    default: ''
+    default: https://github.com/Cloudify-PS/cloudify-agent/archive/4.0.1-p001.zip
 
   sanity_app_source_url:
     type: string
